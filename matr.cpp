@@ -26,11 +26,31 @@ void Show(vector<vector<int>> v, int r, int c) {
     }
 }
 
+vector<vector<int>> Mult(vector<vector<int>> m1,int n, int r, int c) {
+    vector<vector<int>> result = m1;
+    for (int i = 0; i < r; ++i) {
+        for (int j = 0; j < c; ++j) {
+            result[i][j] = m1[i][j] * n;
+        }
+    }
+    return result;
+}
+
 vector<vector<int>> Plus(vector<vector<int>> m1, vector<vector<int>> m2, int r, int c) {
     vector<vector<int>> result = m1;
     for (int i = 0; i < r; ++i) {
         for (int j = 0; j < c; ++j) {
             result[i][j] = m1[i][j] + m2[i][j];
+        }
+    }
+    return result;
+}
+
+vector<vector<int>> Minus(vector<vector<int>> m1, vector<vector<int>> m2, int r, int c) {
+    vector<vector<int>> result = m1;
+    for (int i = 0; i < r; ++i) {
+        for (int j = 0; j < c; ++j) {
+            result[i][j] = m1[i][j] - m2[i][j];
         }
     }
     return result;
@@ -53,15 +73,31 @@ vector<vector<int>> Stepen(vector<vector<int>> v, int r, int c, int n) {
     //for (int i = 0; i < n-1; ++i) {
     //    result = Mult(result, v, r, c);
     //}
+
+    vector< vector<vector<int>>> mas;
+    vector<int> st;
+
     int step = 2;
     while (step*2 < n) {
+        mas.push_back(result);
+        st.push_back(step);
         step += step;
         result = Mult(result, result, r, c);
+    }
+
+    if (step + 1 != n) {
+        for (int i = st.size() - 1; i > 0; i--) {
+            if (st[i] <= n - step) {
+                step += st[i];
+                result = Mult(result, mas[i], r, c);
+            }
+        }
     }
     while (step != n) {
         step++;
         result = Mult(result, v, r, c);
     }
+    
     /*}
     if (n % 2 == 0) {
         for (int i = 0; i < n/2 - 1; ++i) {
@@ -113,7 +149,7 @@ int main() {
     //cout << "умножение" << endl;
     //Show(mult, r1, c1);
 
-    cout << "введите степень для матрицы:" << endl;
+    cout << "введите степень для первой матрицы:" << endl;
     int n;
     cin >> n;
     stepen = Stepen(matrix1, c1, r1, n);
