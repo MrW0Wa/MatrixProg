@@ -134,26 +134,26 @@ int main() {
     cout << "Введите элементы первой матрицы:" << endl;
     matrix1 = Input(r1, c1);
 
-    //cout << "Введите элементы второй матрицы:" << endl;
-    //matrix2 = Input(r2, c2);
+    cout << "Введите элементы второй матрицы:" << endl;
+    matrix2 = Input(r2, c2);
 
 
     cout << "Первая матрица:" << endl;
     Show(matrix1, r1, c1);
 
-    //cout << "Вторая матрица:" << endl;
-    //Show(matrix2, r1, c1);
+    cout << "Вторая матрица:" << endl;
+    Show(matrix2, r1, c1);
 
-    //mult = Mult(matrix1, matrix2, r1, c1);
+    mult = Mult(matrix1, matrix2, r1, c1);
 
-    //cout << "умножение" << endl;
-    //Show(mult, r1, c1);
+    cout << "умножение" << endl;
+    Show(mult, r1, c1);
 
-    cout << "введите степень для первой матрицы:" << endl;
-    int n;
-    cin >> n;
-    stepen = Stepen(matrix1, c1, r1, n);
-    Show(stepen, r1, c1);
+    //cout << "введите степень для первой матрицы:" << endl;
+    //int n;
+    //cin >> n;
+    //stepen = Stepen(matrix1, c1, r1, n);
+    //Show(stepen, r1, c1);
     
 }
 
