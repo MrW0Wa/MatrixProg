@@ -4,7 +4,21 @@
 
 using namespace std;
 
+void E(vector<int> v,  int x1, int xn) {
+    if (x1 == xn) {
+        for (int i : v) {
+            cout << i << ' ';
+        }
+        cout << endl;
+        return;
+    }
+    for (int i = x1; i <= xn; i++) {
+        swap(v[x1], v[i]);
+        E(v, x1 + 1, xn);
+        swap(v[x1], v[i]);
+    }
 
+}
 
 vector<vector<int>> Input(int r, int c) {
     vector<vector<int>> matrix(r, vector<int>(c));
@@ -120,40 +134,51 @@ int main() {
     setlocale(LC_ALL, "Russian");
     int r1, c1, r2, c2;
 
-    cout << "количество строк и столбцов первой матрицы: ";
-    cin >> r1 >> c1;
+    //cout << "количество строк и столбцов первой матрицы: ";
+    //cin >> r1 >> c1;
 
-    cout << "количество строк и столбцов второй матрицы: ";
-    cin >> r2 >> c2;
+    //cout << "количество строк и столбцов второй матрицы: ";
+    //cin >> r2 >> c2;
 
-    vector<vector<int>> matrix1(r1, vector<int>(c1));
-    vector<vector<int>> matrix2(r2, vector<int>(c2));
-    vector<vector<int>> mult(r2, vector<int>(c2));
-    vector<vector<int>> stepen(r1, vector<int>(c1));
+    //vector<vector<int>> matrix1(r1, vector<int>(c1));
+    //vector<vector<int>> matrix2(r2, vector<int>(c2));
+    //vector<vector<int>> mult(r2, vector<int>(c2));
+    //vector<vector<int>> stepen(r1, vector<int>(c1));
 
-    cout << "Введите элементы первой матрицы:" << endl;
-    matrix1 = Input(r1, c1);
+    //cout << "Введите элементы первой матрицы:" << endl;
+    //matrix1 = Input(r1, c1);
 
-    cout << "Введите элементы второй матрицы:" << endl;
-    matrix2 = Input(r2, c2);
+    //cout << "Введите элементы второй матрицы:" << endl;
+    //matrix2 = Input(r2, c2);
 
 
-    cout << "Первая матрица:" << endl;
-    Show(matrix1, r1, c1);
+    //cout << "Первая матрица:" << endl;
+    //Show(matrix1, r1, c1);
 
-    cout << "Вторая матрица:" << endl;
-    Show(matrix2, r1, c1);
+    //cout << "Вторая матрица:" << endl;
+    //Show(matrix2, r1, c1);
 
-    mult = Mult(matrix1, matrix2, r1, c1);
+    //mult = Mult(matrix1, matrix2, r1, c1);
 
-    cout << "умножение" << endl;
-    Show(mult, r1, c1);
+    //cout << "умножение" << endl;
+    //Show(mult, r1, c1);
 
     //cout << "введите степень для первой матрицы:" << endl;
     //int n;
     //cin >> n;
     //stepen = Stepen(matrix1, c1, r1, n);
     //Show(stepen, r1, c1);
+
+
+
+    int n;
+    cout << "Введите n: ";
+    cin >> n;
+    vector<int> v(n);
+    for (int i = 0; i < n; i++) {
+        v[i] = i + 1;
+    }
+    E(v, 0, n-1);
     
 }
 
