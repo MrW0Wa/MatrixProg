@@ -4,21 +4,7 @@
 
 using namespace std;
 
-void E(vector<int> v,  int x1, int xn) {
-    if (x1 == xn) {
-        for (int i : v) {
-            cout << i << ' ';
-        }
-        cout << endl;
-        return;
-    }
-    for (int i = x1; i <= xn; i++) {
-        swap(v[x1], v[i]);
-        E(v, x1 + 1, xn);
-        swap(v[x1], v[i]);
-    }
 
-}
 
 vector<vector<int>> Input(int r, int c) {
     vector<vector<int>> matrix(r, vector<int>(c));
@@ -129,24 +115,109 @@ vector<vector<int>> Stepen(vector<vector<int>> v, int r, int c, int n) {
     return result;
 }
 
+vector<vector<int>> Smena(vector<vector<int>> v, int k, int s) {
+        for (int i = 0; i < v.size(); i++) {
+            swap(v[k - 1][i], v[s - 1][i]);
+        }
+    
+        return v;
+    }
+
+vector<vector<int>> StrMult(vector<vector<int>> v, int k, int b) {
+    for (int i = 0; i < v.size(); i++) {
+        v[k - 1][i] *= b;
+    }
+
+    return v;
+}
+
+vector<vector<int>> StrPlus(vector<vector<int>> v, int k, int s, int b) {
+    for (int i = 0; i < v.size(); i++) {
+        v[k - 1][i] += v[s-1][i] * b;
+    }
+
+    return v;
+}
+
+//vector<vector<int>> Smena(vector<vector<int>> v, int k, int s) {
+//    vector<vector<int>> v1(v.size(), vector<int>(v.size()));
+//    for (int i = 0; i < v1.size(); i++) {
+//        for (int j = 0; j < v1.size(); j++) {
+//            if (i == j) v1[i][j] = 1;
+//            else v1[i][j] = 0;
+//        }
+//    }
+//    v1[k - 1][s - 1] = 1;
+//    v1[s - 1][k - 1] = 1;
+//    v1[k - 1][k - 1] = 0;
+//    v1[s - 1][s - 1] = 0;
+//
+//    return Mult(v1, v, v.size(), v.size());
+//}
+//
+//vector<vector<int>> StrMult(vector<vector<int>> v, int k, int b) {
+//    vector<vector<int>> v1(v.size(), vector<int>(v.size()));
+//    for (int i = 0; i < v1.size(); i++) {
+//        for (int j = 0; j < v1.size(); j++) {
+//            if (i == k - 1 && j == k - 1) v1[i][j] = b;
+//            else if (i == j) v1[i][j] = 1;
+//            else v1[i][j] = 0;
+//        }
+//    }
+//
+//    return Mult(v1, v, v.size(), v.size());
+//}
+//vector<vector<int>> StrPlus(vector<vector<int>> v, int k, int s, int b) {
+//    vector<vector<int>> v1(v.size(), vector<int>(v.size()));
+//    for (int i = 0; i < v1.size(); i++) {
+//        for (int j = 0; j < v1.size(); j++) {
+//            if (i == k - 1 && j == s - 1) v1[i][j] = b;
+//            else if (i == j) v1[i][j] = 1;
+//            else v1[i][j] = 0;
+//        }
+//    }
+//
+//    return Mult(v1, v, v.size(), v.size());
+//}
+
+void E(vector<int> v, int x1, int xn) {
+    if (x1 == xn) {
+        for (int i : v) {
+            cout << i << ' ';
+        }
+        cout << endl;
+        return;
+    }
+    for (int i = x1; i <= xn; i++) {
+        swap(v[x1], v[i]);
+        E(v, x1 + 1, xn);
+        swap(v[x1], v[i]);
+    }
+
+}
+
 int main() {
 
     setlocale(LC_ALL, "Russian");
     int r1, c1, r2, c2;
 
     //cout << "количество строк и столбцов первой матрицы: ";
-    //cin >> r1 >> c1;
+    cin >> r1 >> c1;
 
     //cout << "количество строк и столбцов второй матрицы: ";
     //cin >> r2 >> c2;
 
-    //vector<vector<int>> matrix1(r1, vector<int>(c1));
+    vector<vector<int>> matrix1(r1, vector<int>(c1));
     //vector<vector<int>> matrix2(r2, vector<int>(c2));
     //vector<vector<int>> mult(r2, vector<int>(c2));
     //vector<vector<int>> stepen(r1, vector<int>(c1));
 
-    //cout << "Введите элементы первой матрицы:" << endl;
-    //matrix1 = Input(r1, c1);
+    cout << "Введите элементы первой матрицы:" << endl;
+    matrix1 = Input(r1, c1);
+
+    Show(StrPlus(matrix1, 1, 2, 2), matrix1.size(), matrix1.size());
+    Show(StrMult(matrix1, 1, 2), matrix1.size(), matrix1.size());
+    Show(Smena(matrix1, 1, 2), matrix1.size(), matrix1.size());
 
     //cout << "Введите элементы второй матрицы:" << endl;
     //matrix2 = Input(r2, c2);
@@ -171,14 +242,14 @@ int main() {
 
 
 
-    int n;
-    cout << "Введите n: ";
-    cin >> n;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++) {
-        v[i] = i + 1;
-    }
-    E(v, 0, n-1);
+    //int n;
+    //cout << "Введите n: ";
+    //cin >> n;
+    //vector<int> v(n);
+    //for (int i = 0; i < n; i++) {
+    //    v[i] = i + 1;
+    //}
+    //E(v, 0, n-1);
     
 }
 
