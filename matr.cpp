@@ -139,6 +139,88 @@ vector<vector<int>> StrPlus(vector<vector<int>> v, int k, int s, int b) {
     return v;
 }
 
+//FLOAT
+
+vector<vector<float>> InputF(int r, int c) {
+    vector<vector<float>> matrix(r, vector<float>(c));
+    for (int i = 0; i < r; ++i) {
+        for (int j = 0; j < c; ++j) {
+            cin >> matrix[i][j];
+        }
+    }
+    return matrix;
+}
+
+vector<vector<float>> Smena(vector<vector<float>> v, int k, int s) {
+    for (int i = 0; i < v.size(); i++) {
+        swap(v[k - 1][i], v[s - 1][i]);
+    }
+
+    return v;
+}
+
+vector<vector<float>> StrMult(vector<vector<float>> v, int k, int b) {
+    for (int i = 0; i < v.size(); i++) {
+        v[k - 1][i] *= b;
+    }
+
+    return v;
+}
+
+vector<vector<float>> StrPlus(vector<vector<float>> v, int k, int s, float b) {
+    for (int i = 0; i < v.size(); i++) {
+        v[k - 1][i] += v[s - 1][i] * b;
+    }
+
+    return v;
+}
+
+void Show(vector<vector<float>> v, int r, int c) {
+    for (int i = 0; i < r; ++i) {
+        for (int j = 0; j < c; ++j) {
+            cout << v[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+
+vector<vector<float>> Inverse(vector<vector<float>> v) {
+    vector<vector<float>> v1(v.size(), vector<float>(v.size()));
+    for (int i = 0; i < v1.size(); i++) {
+        for (int j = 0; j < v1.size(); j++) {
+            if (i == j) v1[i][j] = 1;
+            else v1[i][j] = 0;
+        }
+    }
+
+
+    for (int j = 0 ; j < v.size()-1; j++){
+        for (int i = j+1; i < v.size(); i++) {
+            if (v[j][j] == 0) {
+
+            }
+            float cof = v[i][j] / v[j][j];
+            v = StrPlus(v, i+1, j+1, -cof);
+            v1 = StrPlus(v1, i+1, j+1, -cof);
+
+        }
+    }
+    Show(v, v.size(), v.size());
+
+    //for (int j = 1; j < v.size(); j++) {
+    //    for (int i = j; i < v.size()-1; i++) {
+
+    //        float cof = v[j-1][j] / v[i][i];
+    //        v = StrPlus(v, i+1 , j+1, -cof);
+    //        v1 = StrPlus(v1, i + 1, j + 1, -cof);
+
+    //    }
+    //}
+    //Show(v, v.size(), v.size());
+    return {};
+}
+
 //vector<vector<int>> Smena(vector<vector<int>> v, int k, int s) {
 //    vector<vector<int>> v1(v.size(), vector<int>(v.size()));
 //    for (int i = 0; i < v1.size(); i++) {
@@ -207,17 +289,16 @@ int main() {
     //cout << "количество строк и столбцов второй матрицы: ";
     //cin >> r2 >> c2;
 
-    vector<vector<int>> matrix1(r1, vector<int>(c1));
+    vector<vector<float>> matrix1(r1, vector<float>(c1));
     //vector<vector<int>> matrix2(r2, vector<int>(c2));
     //vector<vector<int>> mult(r2, vector<int>(c2));
     //vector<vector<int>> stepen(r1, vector<int>(c1));
 
     cout << "Введите элементы первой матрицы:" << endl;
-    matrix1 = Input(r1, c1);
+    matrix1 = InputF(r1, c1);
 
-    Show(StrPlus(matrix1, 1, 2, 2), matrix1.size(), matrix1.size());
-    Show(StrMult(matrix1, 1, 2), matrix1.size(), matrix1.size());
-    Show(Smena(matrix1, 1, 2), matrix1.size(), matrix1.size());
+    Inverse(matrix1);
+
 
     //cout << "Введите элементы второй матрицы:" << endl;
     //matrix2 = Input(r2, c2);
