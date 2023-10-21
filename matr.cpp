@@ -153,7 +153,7 @@ vector<vector<float>> InputF(int r, int c) {
 
 vector<vector<float>> Smena(vector<vector<float>> v, int k, int s) {
     for (int i = 0; i < v.size(); i++) {
-        swap(v[k - 1][i], v[s - 1][i]);
+        swap(v[k][i], v[s][i]);
     }
 
     return v;
@@ -161,7 +161,7 @@ vector<vector<float>> Smena(vector<vector<float>> v, int k, int s) {
 
 vector<vector<float>> StrMult(vector<vector<float>> v, int k, int b) {
     for (int i = 0; i < v.size(); i++) {
-        v[k - 1][i] *= b;
+        v[k][i] *= b;
     }
 
     return v;
@@ -169,7 +169,7 @@ vector<vector<float>> StrMult(vector<vector<float>> v, int k, int b) {
 
 vector<vector<float>> StrPlus(vector<vector<float>> v, int k, int s, float b) {
     for (int i = 0; i < v.size(); i++) {
-        v[k - 1][i] += v[s - 1][i] * b;
+        v[k][i] += v[s][i] * b;
     }
 
     return v;
@@ -185,6 +185,7 @@ void Show(vector<vector<float>> v, int r, int c) {
 }
 
 
+
 vector<vector<float>> Inverse(vector<vector<float>> v) {
     vector<vector<float>> v1(v.size(), vector<float>(v.size()));
     for (int i = 0; i < v1.size(); i++) {
@@ -196,28 +197,54 @@ vector<vector<float>> Inverse(vector<vector<float>> v) {
 
 
     for (int j = 0 ; j < v.size()-1; j++){
+        if (v[j][j] == 0) {
+            for (int i = j; i < v.size()-1; i++) {
+                if (v[i][j] != 0) {
+                    Smena(v, j, i);
+                    Smena(v1, j, i);
+                }
+            }
+        }
         for (int i = j+1; i < v.size(); i++) {
             if (v[j][j] == 0) {
 
             }
             float cof = v[i][j] / v[j][j];
-            v = StrPlus(v, i+1, j+1, -cof);
-            v1 = StrPlus(v1, i+1, j+1, -cof);
+            v = StrPlus(v, i, j, -cof);
+            v1 = StrPlus(v1, i, j, -cof);
 
         }
     }
-    Show(v, v.size(), v.size());
-
-    //for (int j = 1; j < v.size(); j++) {
-    //    for (int i = j; i < v.size()-1; i++) {
-
-    //        float cof = v[j-1][j] / v[i][i];
-    //        v = StrPlus(v, i+1 , j+1, -cof);
-    //        v1 = StrPlus(v1, i + 1, j + 1, -cof);
-
-    //    }
-    //}
     //Show(v, v.size(), v.size());
+    cout << endl;
+    int det = 1;
+    for (int i = 0; i < v.size(); i++) {
+        det *=  v[i][i];
+    }
+    cout << det << endl;
+
+    for (int j = 1; j < v.size(); j++) {
+        if (v[j][j] == 0) {
+            for (int i = j; i < v.size(); i++) {
+                if (v[i][j] != 0) {
+                    Smena(v, j, i);
+                    Smena(v1, j, i);
+                }
+            }
+        }
+        for (int i = 0; i < j; i++) {
+
+            float cof = v[i][j] / v[j][j];
+            v = StrPlus(v, i , j, -cof);
+            v1 = StrPlus(v1, i , j , -cof);
+
+        }
+    }
+    //Show(v, v.size(), v.size());
+    cout << endl;
+    //Show(v1, v1.size(), v1.size());
+    cout << endl;
+
     return {};
 }
 
@@ -299,7 +326,7 @@ int main() {
 
     Inverse(matrix1);
 
-
+    cin >> r1;
     //cout << "Введите элементы второй матрицы:" << endl;
     //matrix2 = Input(r2, c2);
 
