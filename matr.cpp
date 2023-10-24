@@ -17,50 +17,50 @@ vector<vector<int>> Input(int r, int c) {
     return matrix;
 }
 
-void Show(vector<vector<int>> v, int r, int c) {
-    for (int i = 0; i < r; ++i) {
-        for (int j = 0; j < c; ++j) {
+void Show(vector<vector<int>> v) {
+    for (int i = 0; i < v.size(); ++i) {
+        for (int j = 0; j < v.size(); ++j) {
             cout << v[i][j] << " ";
         }
         cout << endl;
     }
 }
 
-vector<vector<int>> Mult(vector<vector<int>> m1,int n, int r, int c) {
+vector<vector<int>> Mult(vector<vector<int>> m1,int n) {
     vector<vector<int>> result = m1;
-    for (int i = 0; i < r; ++i) {
-        for (int j = 0; j < c; ++j) {
+    for (int i = 0; i < m1.size(); ++i) {
+        for (int j = 0; j < m1.size(); ++j) {
             result[i][j] = m1[i][j] * n;
         }
     }
     return result;
 }
 
-vector<vector<int>> Plus(vector<vector<int>> m1, vector<vector<int>> m2, int r, int c) {
+vector<vector<int>> Plus(vector<vector<int>> m1, vector<vector<int>> m2) {
     vector<vector<int>> result = m1;
-    for (int i = 0; i < r; ++i) {
-        for (int j = 0; j < c; ++j) {
+    for (int i = 0; i < m1.size(); ++i) {
+        for (int j = 0; j < m1.size(); ++j) {
             result[i][j] = m1[i][j] + m2[i][j];
         }
     }
     return result;
 }
 
-vector<vector<int>> Minus(vector<vector<int>> m1, vector<vector<int>> m2, int r, int c) {
+vector<vector<int>> Minus(vector<vector<int>> m1, vector<vector<int>> m2) {
     vector<vector<int>> result = m1;
-    for (int i = 0; i < r; ++i) {
-        for (int j = 0; j < c; ++j) {
+    for (int i = 0; i < m1.size(); ++i) {
+        for (int j = 0; j < m1.size(); ++j) {
             result[i][j] = m1[i][j] - m2[i][j];
         }
     }
     return result;
 }
 
-vector<vector<int>> Mult(vector<vector<int>> m1, vector<vector<int>> m2, int r, int c) {
-    vector<vector<int>> result(r, vector<int>(c));
-    for (int i = 0; i < r; ++i) {
-        for (int j = 0; j < c; ++j) {
-            for (int n = 0; n < r; ++n) {
+vector<vector<int>> Mult(vector<vector<int>> m1, vector<vector<int>> m2) {
+    vector<vector<int>> result(m1.size(), vector<int>(m1.size()));
+    for (int i = 0; i < m1.size(); ++i) {
+        for (int j = 0; j < m1.size(); ++j) {
+            for (int n = 0; n < m1.size(); ++n) {
                 result[i][j] += m1[i][n] * m2[n][j];
             }
         }
@@ -68,8 +68,8 @@ vector<vector<int>> Mult(vector<vector<int>> m1, vector<vector<int>> m2, int r, 
     return result;
 }
 
-vector<vector<int>> Stepen(vector<vector<int>> v, int r, int c, int n) {
-    vector<vector<int>> result = Mult(v, v, r, c);
+vector<vector<int>> Stepen(vector<vector<int>> v, int n) {
+    vector<vector<int>> result = Mult(v, v);
     //for (int i = 0; i < n-1; ++i) {
     //    result = Mult(result, v, r, c);
     //}
@@ -82,20 +82,20 @@ vector<vector<int>> Stepen(vector<vector<int>> v, int r, int c, int n) {
         mas.push_back(result);
         st.push_back(step);
         step += step;
-        result = Mult(result, result, r, c);
+        result = Mult(result, result);
     }
 
     if (step + 1 != n) {
         for (int i = st.size() - 1; i > 0; i--) {
             if (st[i] <= n - step) {
                 step += st[i];
-                result = Mult(result, mas[i], r, c);
+                result = Mult(result, mas[i]);
             }
         }
     }
     while (step != n) {
         step++;
-        result = Mult(result, v, r, c);
+        result = Mult(result, v);
     }
     
     /*}
@@ -141,6 +141,18 @@ vector<vector<int>> StrPlus(vector<vector<int>> v, int k, int s, int b) {
 
 //FLOAT
 
+vector<vector<float>> Mult(vector<vector<float>> m1, vector<vector<float>> m2) {
+    vector<vector<float>> result(m1.size(), vector<float>(m1.size()));
+    for (int i = 0; i < m1.size(); ++i) {
+        for (int j = 0; j < m1.size(); ++j) {
+            for (int n = 0; n < m1.size(); ++n) {
+                result[i][j] += m1[i][n] * m2[n][j];
+            }
+        }
+    }
+    return result;
+}
+
 vector<vector<float>> InputF(int r, int c) {
     vector<vector<float>> matrix(r, vector<float>(c));
     for (int i = 0; i < r; ++i) {
@@ -159,7 +171,7 @@ vector<vector<float>> Smena(vector<vector<float>> v, int k, int s) {
     return v;
 }
 
-vector<vector<float>> StrMult(vector<vector<float>> v, int k, int b) {
+vector<vector<float>> StrMult(vector<vector<float>> v, int k, float b) {
     for (int i = 0; i < v.size(); i++) {
         v[k][i] *= b;
     }
@@ -175,14 +187,16 @@ vector<vector<float>> StrPlus(vector<vector<float>> v, int k, int s, float b) {
     return v;
 }
 
-void Show(vector<vector<float>> v, int r, int c) {
-    for (int i = 0; i < r; ++i) {
-        for (int j = 0; j < c; ++j) {
+void Show(vector<vector<float>> v) {
+    for (int i = 0; i < v.size(); ++i) {
+        for (int j = 0; j < v.size(); ++j) {
             cout << v[i][j] << " ";
         }
         cout << endl;
     }
 }
+
+
 
 
 
@@ -202,36 +216,37 @@ vector<vector<float>> Inverse(vector<vector<float>> v) {
                 if (v[i][j] != 0) {
                     Smena(v, j, i);
                     Smena(v1, j, i);
+                    break;
                 }
             }
         }
         for (int i = j+1; i < v.size(); i++) {
-            if (v[j][j] == 0) {
-
-            }
             float cof = v[i][j] / v[j][j];
             v = StrPlus(v, i, j, -cof);
             v1 = StrPlus(v1, i, j, -cof);
 
         }
     }
-    //Show(v, v.size(), v.size());
-    cout << endl;
+
+    //Show(v1);
+    //cout << endl;
     int det = 1;
     for (int i = 0; i < v.size(); i++) {
         det *=  v[i][i];
     }
-    cout << det << endl;
+    //cout << det << endl;
+    //Show(Mult(v, v1));
+    //cout << endl;
 
     for (int j = 1; j < v.size(); j++) {
-        if (v[j][j] == 0) {
-            for (int i = j; i < v.size(); i++) {
-                if (v[i][j] != 0) {
-                    Smena(v, j, i);
-                    Smena(v1, j, i);
-                }
-            }
-        }
+        //if (v[j][j] == 0) {
+        //    for (int i = j; i < v.size(); i++) {
+        //        if (v[i][j] != 0) {
+        //            Smena(v, j, i);
+        //            Smena(v1, j, i);
+        //        }
+        //    }
+        //}
         for (int i = 0; i < j; i++) {
 
             float cof = v[i][j] / v[j][j];
@@ -240,12 +255,18 @@ vector<vector<float>> Inverse(vector<vector<float>> v) {
 
         }
     }
-    //Show(v, v.size(), v.size());
-    cout << endl;
-    //Show(v1, v1.size(), v1.size());
+
+    for (int j = 0; j < v.size(); j++) {
+        float cof = 1 / v[j][j];
+        v = StrMult(v,j, cof);
+        v1 = StrMult(v1,j,cof );
+    }
+    
+   // cout << endl;
+    Show(v1);
     cout << endl;
 
-    return {};
+    return v1;
 }
 
 //vector<vector<int>> Smena(vector<vector<int>> v, int k, int s) {
@@ -324,7 +345,14 @@ int main() {
     cout << "Введите элементы первой матрицы:" << endl;
     matrix1 = InputF(r1, c1);
 
-    Inverse(matrix1);
+    //Show(Inverse(matrix1));
+    //cout << endl;
+
+    Show(Mult( Inverse(matrix1), matrix1));
+    cout << endl;
+    //Show(Mult(matrix1, Inverse(matrix1)));
+
+
 
     cin >> r1;
     //cout << "Введите элементы второй матрицы:" << endl;
