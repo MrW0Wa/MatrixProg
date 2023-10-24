@@ -1,5 +1,7 @@
 ﻿#include <iostream>
 #include <vector>
+#include <utility>
+#include <iomanip>
 
 
 using namespace std;
@@ -188,8 +190,11 @@ vector<vector<float>> StrPlus(vector<vector<float>> v, int k, int s, float b) {
 }
 
 void Show(vector<vector<float>> v) {
+    
     for (int i = 0; i < v.size(); ++i) {
         for (int j = 0; j < v.size(); ++j) {
+            if (v[i][j] < 1 && v[i][j] > 0) std::cout << std::fixed << std::setprecision(2);
+            else std::cout << std::fixed << std::setprecision(0);
             cout << v[i][j] << " ";
         }
         cout << endl;
@@ -263,10 +268,42 @@ vector<vector<float>> Inverse(vector<vector<float>> v) {
     }
     
    // cout << endl;
-    Show(v1);
-    cout << endl;
+    //Show(v1);
+    //cout << endl;
 
     return v1;
+}
+
+pair< vector<vector<float>>, vector<vector<float>>> LU(vector<vector<float>> v) {
+    vector<vector<float>> v1(v.size(), vector<float>(v.size()));
+    for (int i = 0; i < v1.size(); i++) {
+        for (int j = 0; j < v1.size(); j++) {
+            if (i == j) v1[i][j] = 1;
+            else v1[i][j] = 0;
+        }
+    }
+
+
+    for (int j = 0; j < v.size() - 1; j++) {
+        if (v[j][j] == 0) {
+            for (int i = j; i < v.size() - 1; i++) {
+                if (v[i][j] != 0) {
+                    Smena(v, j, i);
+                    Smena(v1, j, i);
+                    break;
+                }
+            }
+        }
+        for (int i = j + 1; i < v.size(); i++) {
+            float cof = v[i][j] / v[j][j];
+            v = StrPlus(v, i, j, -cof);
+            v1 = StrPlus(v1, i, j, -cof);
+
+        }
+    }
+
+
+    return {Inverse(v1),v};
 }
 
 //vector<vector<int>> Smena(vector<vector<int>> v, int k, int s) {
@@ -345,12 +382,16 @@ int main() {
     cout << "Введите элементы первой матрицы:" << endl;
     matrix1 = InputF(r1, c1);
 
-    //Show(Inverse(matrix1));
-    //cout << endl;
+    pair < vector < vector<float>>, vector<vector<float>>> lu;
 
-    Show(Mult( Inverse(matrix1), matrix1));
+    
+    lu = LU(matrix1);
+    Show(lu.first);
     cout << endl;
-    //Show(Mult(matrix1, Inverse(matrix1)));
+    Show(lu.second);
+    cout << endl;
+    Show(Mult(lu.first, lu.second));
+    cout << endl;
 
 
 
