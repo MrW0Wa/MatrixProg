@@ -363,6 +363,47 @@ void E(vector<int> v, int x1, int xn) {
 
 }
 
+vector<float> uravnenie(vector<vector<float>> v, vector<float> m) {
+    for (int j = 0; j < v.size() - 1; j++) {
+        if (v[j][j] == 0) {
+            for (int i = j; i < v.size() - 1; i++) {
+                if (v[i][j] != 0) {
+                    Smena(v, j, i);
+                    break;
+                }
+            }
+        }
+        for (int i = j + 1; i < v.size(); i++) {
+            float cof = v[i][j] / v[j][j];
+            v = StrPlus(v, i, j, -cof);
+            m[i] += m[j] * (-cof);
+
+        }
+    }
+
+
+    //
+
+    for (int j = 1; j < v.size(); j++) {
+
+        for (int i = 0; i < j; i++) {
+
+            float cof = v[i][j] / v[j][j];
+            v = StrPlus(v, i, j, -cof);
+            m[i] += m[j] * (-cof);
+
+        }
+    }
+
+    for (int j = 0; j < v.size(); j++) {
+        float cof = 1 / v[j][j];
+        v = StrMult(v, j, cof);
+        m[j] *= cof;
+    }
+
+    return m;
+}
+
 int main() {
 
     setlocale(LC_ALL, "Russian");
@@ -381,19 +422,29 @@ int main() {
 
     cout << "Введите элементы первой матрицы:" << endl;
     matrix1 = InputF(r1, c1);
+    vector<float> m;
 
-    pair < vector < vector<float>>, vector<vector<float>>> lu;
+    for (int i = 0; i < matrix1.size(); i++) {
+        int n;
+        cin >> n;
+        m.push_back(n);
+    }
+    //pair < vector < vector<float>>, vector<vector<float>>> lu;
 
-    
-    lu = LU(matrix1);
-    Show(lu.first);
-    cout << endl;
-    Show(lu.second);
-    cout << endl;
-    Show(Mult(lu.first, lu.second));
-    cout << endl;
+    //
+    //lu = LU(matrix1);
+    //Show(lu.first);
+    //cout << endl;
+    //Show(lu.second);
+    //cout << endl;
+    //Show(Mult(lu.first, lu.second));
+    //cout << endl;
 
+    m = uravnenie(matrix1, m);
 
+    for (float i : m) {
+        cout << i << ' ';
+    }
 
     cin >> r1;
     //cout << "Введите элементы второй матрицы:" << endl;
